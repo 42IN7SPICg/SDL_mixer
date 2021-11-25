@@ -13,9 +13,9 @@ project(SDL2_mixer C)
 set(SUPPORT_MP3_MPG123 OFF CACHE BOOL "" FORCE)
 
 option(SUPPORT_WAV "Support loading WAVE music" ON)
-option(SUPPORT_FLAC "Support loading FLAC music with libFLAC" OFF)
-option(SUPPORT_OGG "Support loading OGG Vorbis music via Tremor" OFF)
-option(SUPPORT_MP3_MPG123 "Support loading MP3 music via MPG123" OFF)
+option(SUPPORT_FLAC "Support loading FLAC music with libFLAC" ON)
+option(SUPPORT_OGG "Support loading OGG Vorbis music via Tremor" ON)
+option(SUPPORT_MP3_MPG123 "Support loading MP3 music via MPG123" ON)
 option(SUPPORT_MOD_MODPLUG "Support loading MOD music via modplug" OFF)
 option(SUPPORT_MID_TIMIDITY "Support loading MIDI music via TiMidity" OFF)
 
