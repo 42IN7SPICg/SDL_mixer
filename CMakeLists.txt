@@ -8,6 +8,8 @@ project(SDL2_mixer C)
 # FIXME: test accross different target platforms.
 #
 # FIXME: missing CMakeLists.txt for MPG123
+
+
 set(SUPPORT_MP3_MPG123 OFF CACHE BOOL "" FORCE)
 
 option(SUPPORT_WAV "Support loading WAVE music" ON)
@@ -19,12 +21,19 @@ option(SUPPORT_MID_TIMIDITY "Support loading MIDI music via TiMidity" OFF)
 
 option(BUILD_SHARED_LIBS "Enable shared library" ON)
 
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_INCLUDE_DIR})
+include(FetchContent)
+if(${CMAKE_VERSION} VERSION_LESS 3.14)
+    include(cmake/fetchContent_makeAvailable.cmake)
+endif()
+
+FetchContent_Declare(sdl GIT_REPOSITORY https://github.com/libsdl-org/SDL.git GIT_TAG release-2.0.16)
+FetchContent_MakeAvailable(sdl)
 
 include_directories(include src src/codecs)
 
-add_library(SDL2_mixer)
+add_library(SDL2_mixer STATIC)
+
+set_target_properties(SDL2_mixer PROPERTIES PREFIX "")
 
 target_sources(SDL2_mixer PRIVATE
         src/effect_position.c src/effects_internal.c src/effect_stereoreverse.c
@@ -77,5 +86,5 @@ if (SUPPORT_MID_TIMIDITY)
     target_link_libraries(SDL2_mixer PRIVATE timidity)
 endif()
 
-target_include_directories(SDL2_mixer PUBLIC include)
-target_link_libraries(SDL2_mixer PRIVATE ${SDL2_LIBRARIES} ${SDL2_LIBRARY})
+target_include_directories(SDL2_mixer PUBLIC include ${sdl_SOURCE_DIR}/include)
+target_link_libraries(SDL2_mixer PRIVATE SDL2)
